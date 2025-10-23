@@ -1,11 +1,10 @@
 import requests
 import allure
 import sys
-import pytest
 from datetime import datetime
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from helpers.CreateCurier import register_new_courier_and_return_login_password
+
 from data.data import Constants
 
 class TestCreateCourier:
@@ -13,21 +12,24 @@ class TestCreateCourier:
 
     @allure.title('Создаю курьера')
     @allure.description('Отправляем POST запрос, проверяем тело и статус ответа')
-    def test_create_courier_login_password_response_status_code_201(self):
+    def test_create_courier_login_password_response_status_code_201(self, delete_curier):
 
+        login_pass = [f"seva{datetime.now().strftime("%m%d%H%M%S%f")}", "1234"]
         payload = {
-            "login": f"seva{datetime.now().strftime("%m%d%H%M%S%f")}",
-            "password": "1234"
+            "login": login_pass[0],
+            "password": login_pass[1]
         }
 
         response = requests.post(f"{Constants.url_samokat}/api/v1/courier", data=payload)
         assert response.status_code == 201 and response.json()['ok'] == True
 
+        delete_curier(login_pass[0], login_pass[1])
+
     @allure.title('Создаю пользователя с логином, который уже есть')
     @allure.description('Отправляем POST запрос с сущесвтующим логином, проверяем текст ошибки и статус ответа')
-    def test_create_existing_courier_login_correct_message_text(self):
+    def test_create_existing_courier_login_correct_message_text(self, create_curier_and_delete_after):
 
-        login_pass = register_new_courier_and_return_login_password()
+        login_pass = create_curier_and_delete_after
 
         payload = {
             "login": login_pass[0],

@@ -11,59 +11,13 @@ from data.data import Constants
 
 class TestCreateOrder:
 
-    
     @allure.title('Создаю заказ')
     @allure.description('Отправляем POST запрос, проверяем тело и статус ответа')
-    @pytest.mark.parametrize('payload', [{
-            "firstName": "Naruto",
-            "lastName": "Uchiha",
-            "address": "Konoha, 142 apt.",
-            "metroStation": 4,
-            "phone": "+7 800 355 35 35",
-            "rentTime": 5,
-            "deliveryDate": "2020-06-06",
-            "comment": "Saske, come back to Konoha",
-            "color": [
-                "BLACK"
-            ]
-        },
-        {
-            "firstName": "Naruto",
-            "lastName": "Uchiha",
-            "address": "Konoha, 142 apt.",
-            "metroStation": 4,
-            "phone": "+7 800 355 35 35",
-            "rentTime": 5,
-            "deliveryDate": "2020-06-06",
-            "comment": "Saske, come back to Konoha",
-            "color": [
-                "GREY"
-            ]
-        },
-        {
-            "firstName": "Naruto",
-            "lastName": "Uchiha",
-            "address": "Konoha, 142 apt.",
-            "metroStation": 4,
-            "phone": "+7 800 355 35 35",
-            "rentTime": 5,
-            "deliveryDate": "2020-06-06",
-            "comment": "Saske, come back to Konoha",
-            "color": [
-                "BLACK",
-                "GREY"
-            ]
-        },
-        {
-            "firstName": "Naruto",
-            "lastName": "Uchiha",
-            "address": "Konoha, 142 apt.",
-            "metroStation": 4,
-            "phone": "+7 800 355 35 35",
-            "rentTime": 5,
-            "deliveryDate": "2020-06-06",
-            "comment": "Saske, come back to Konoha",
-        }
+    @pytest.mark.parametrize('payload', [
+        Constants.order_black,
+        Constants.order_grey,
+        Constants.order_brack_grey,
+        Constants.order_without_colors
     ])
     def test_create_order_code_201(self, payload):
 
